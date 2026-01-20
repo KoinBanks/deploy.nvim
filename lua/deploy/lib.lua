@@ -23,12 +23,19 @@ end
 M.shell.fire_rsync = utils.nio_create(
   ---@param context DeployContext
   function(context)
+    local ssh_port = context.address:match(":(%d+)$") or 22
+    local ssh_user = context.address:match("^(.-)@") or "root"
+    local ssh_host = context.address:match("@(.+):")
+      or context.address:match("@(.+)$")
+      or context.address:match("^(.-):")
+      or context.address
+
     local rsync_args = {
       "--timeout=" .. config.options.timeout,
       "-avze",
-      "ssh",
+      "ssh -p " .. ssh_port,
       context.source,
-      "root@" .. context.address .. ":" .. context.destination,
+      ssh_user .. "@" .. ssh_host .. ":" .. context.destination,
     }
 
     return utils.run_shell_command({
