@@ -211,7 +211,7 @@ M.deploy_file = utils.nio_create(
       end
     end
 
-    local rsync_res = M.shell.fire_rsync(context)
+    local rsync_res = M.call_deployment_tool(context)
 
     if rsync_res.code == 0 then
       M.notify({ msg = "Deploy successful (" .. context.address .. ")" })
@@ -229,7 +229,7 @@ M.deploy_file = utils.nio_create(
 
       if dir_res.code == 0 then
         M.notify({ msg = "Remote directory created. Retrying deploy..." })
-        rsync_res = M.shell.fire_rsync(context)
+        rsync_res = M.call_deployment_tool(context)
 
         if rsync_res.code == 0 then
           M.notify({ msg = "Deploy successful (" .. context.address .. ")" })
