@@ -59,6 +59,26 @@ M.shell.fire_rsync = utils.nio_create(
   1
 )
 
+M.shell.fire_scp = utils.nio_create(
+  ---@param context DeployContext
+  function(context)
+    local parsed_address = M.parse_address(context.address)
+
+    local scp_args = {
+      "-P",
+      tostring(parsed_address.port),
+      context.source,
+      parsed_address.user .. "@" .. parsed_address.host .. ":" .. context.destination,
+    }
+
+    return utils.run_shell_command({
+      cmd = "scp",
+      args = scp_args,
+    })
+  end,
+  1
+)
+
 M.shell.create_remote_dir = utils.nio_create(
   ---@param context DeployContext
   function(context)
