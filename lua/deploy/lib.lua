@@ -20,6 +20,19 @@ M.notify = function(opts)
   vim.notify("[[Deploy]] " .. msg, level)
 end
 
+---@param address string
+M.parse_address = function(address)
+  local ssh_port = address:match(":(%d+)$") or 22
+  local ssh_user = address:match("^(.-)@") or "root"
+  local ssh_host = address:match("@(.+):") or address:match("@(.+)$") or address:match("^(.-):") or address
+
+  return {
+    user = ssh_user,
+    host = ssh_host,
+    port = tonumber(ssh_port),
+  }
+end
+
 M.shell.fire_rsync = utils.nio_create(
   ---@param context DeployContext
   function(context)
