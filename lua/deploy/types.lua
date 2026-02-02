@@ -30,6 +30,7 @@
 ---@field rewrite? RewriteFunction An optional function to rewrite the server path before deployment.
 
 ---@class DeployConfig
+---@field tool string The deployment tool to use. "scp" or "rsync". Default is "scp".
 ---@field timeout number The timeout for deployment (Seconds). Default is 3.
 ---@field hosts DeployHost[] A table of hosts to which we can deploy.
 ---@field mappings DeployMapping[] A table of mappings from local filesystem paths to remote paths.
