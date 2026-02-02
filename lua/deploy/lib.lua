@@ -36,19 +36,14 @@ end
 M.shell.fire_rsync = utils.nio_create(
   ---@param context DeployContext
   function(context)
-    local ssh_port = context.address:match(":(%d+)$") or 22
-    local ssh_user = context.address:match("^(.-)@") or "root"
-    local ssh_host = context.address:match("@(.+):")
-      or context.address:match("@(.+)$")
-      or context.address:match("^(.-):")
-      or context.address
+    local parsed_address = M.parse_address(context.address)
 
     local rsync_args = {
       "--timeout=" .. config.options.timeout,
       "-avze",
-      "ssh -p " .. ssh_port,
+      "ssh -p " .. parsed_address.port,
       context.source,
-      ssh_user .. "@" .. ssh_host .. ":" .. context.destination,
+      parsed_address.user .. "@" .. parsed_address.host .. ":" .. context.destination,
     }
 
     return utils.run_shell_command({
@@ -82,7 +77,11 @@ M.shell.fire_scp = utils.nio_create(
 M.shell.create_remote_dir = utils.nio_create(
   ---@param context DeployContext
   function(context)
+    local parsed_address = M.parse_address(context.address)
+
     local ssh_args = {
+      "-p",
+      tostring(parsed_address.port),
       "root@" .. context.address,
       "mkdir -p " .. context.destination:match("(.*/)"),
     }
