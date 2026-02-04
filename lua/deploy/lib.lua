@@ -210,6 +210,10 @@ M.deploy_file = utils.nio_create(
       end
     end
 
+    utils.log(
+      "Local file:  " .. context.source .. "\nRemote file: " .. context.destination .. "\nHost: " .. context.address
+    )
+
     local rsync_res = M.call_deployment_tool(context)
 
     if rsync_res.code == 0 then
