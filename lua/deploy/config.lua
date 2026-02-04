@@ -4,7 +4,12 @@ local M = {}
 
 ---@type DeployConfig
 M.defaults = {
-  verbose = false,
+  log = {
+    level = "none",
+    max_size_kb = 2048,
+  },
+  tool = "rsync",
+  log_level = "none",
   timeout = 3,
   hosts = {},
   mappings = {},
@@ -24,6 +29,8 @@ M.setup = function(opts)
   table.sort(M.options.mappings, function(a, b)
     return #a.fs > #b.fs
   end)
+
+  utils.truncate_log_by_size(M.options.log.max_size_kb)
 end
 
 return M
