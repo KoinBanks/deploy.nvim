@@ -34,9 +34,9 @@
 ---@field level? 'none'|'error'|'info' The logging level. Default is "none".
 
 ---@class DeployConfig
----@field log LogConfig The logging configuration.
----@field tool 'rsync'|'scp' The deployment tool to use. "scp" or "rsync". Default is "rsync".
----@field timeout number The timeout for deployment (Seconds). Default is 3.
+---@field log? LogConfig The logging configuration.
+---@field tool? 'rsync'|'scp' The deployment tool to use. "scp" or "rsync". Default is "rsync".
+---@field timeout? number The timeout for deployment (Seconds). Default is 3.
 ---@field hosts DeployHost[] A table of hosts to which we can deploy.
 ---@field mappings DeployMapping[] A table of mappings from local filesystem paths to remote paths.
 
