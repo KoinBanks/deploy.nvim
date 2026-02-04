@@ -79,4 +79,37 @@ M.nio_create = function(fn, arg_count)
   return nio.create(fn, arg_count)
 end
 
+M.log_file = vim.fn.stdpath("data") .. "/deploy.log"
+
+M.log = function(message)
+  local file = io.open(M.log_file, "a")
+  if file then
+    file:write(os.date("%Y-%m-%d %H:%M:%S") .. "\n" .. message .. "\n\n")
+    file:close()
+  end
+end
+
+M.truncate_log_by_size = function(max_size_kb)
+  local file = io.open(M.log_file, "r")
+  if not file then
+    return
+  end
+
+  local content = file:read("*all")
+  file:close()
+
+  local content_size_kb = #content / 1024
+  if content_size_kb <= max_size_kb then
+    return
+  end
+
+  local truncated_content = content:sub(-max_size_kb * 1024)
+
+  file = io.open(M.log_file, "w")
+  if file then
+    file:write(truncated_content)
+    file:close()
+  end
+end
+
 return M
