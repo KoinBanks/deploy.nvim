@@ -71,7 +71,7 @@ M.shell.create_remote_dir = utils.nio_create(
     local ssh_args = {
       "-p",
       tostring(parsed_address.port),
-      "root@" .. context.address,
+      parsed_address.user .. "@" .. parsed_address.host,
       "mkdir -p " .. context.destination:match("(.*/)"),
     }
 
