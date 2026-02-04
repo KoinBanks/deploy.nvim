@@ -46,6 +46,19 @@ M.run_shell_command = nio.create(
   1
 )
 
+---@param address string
+M.parse_address = function(address)
+  local ssh_port = address:match(":(%d+)$") or 22
+  local ssh_user = address:match("^(.-)@") or "root"
+  local ssh_host = address:match("@(.+):") or address:match("@(.+)$") or address:match("^(.-):") or address
+
+  return {
+    user = ssh_user,
+    host = ssh_host,
+    port = tonumber(ssh_port),
+  }
+end
+
 -- codes taken from `man rsync`
 M.rsync_err_code_to_human = function(code)
   local error_code_map = {

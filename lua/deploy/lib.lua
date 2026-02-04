@@ -20,23 +20,10 @@ M.notify = function(opts)
   vim.notify("[[Deploy]] " .. msg, level)
 end
 
----@param address string
-M.parse_address = function(address)
-  local ssh_port = address:match(":(%d+)$") or 22
-  local ssh_user = address:match("^(.-)@") or "root"
-  local ssh_host = address:match("@(.+):") or address:match("@(.+)$") or address:match("^(.-):") or address
-
-  return {
-    user = ssh_user,
-    host = ssh_host,
-    port = tonumber(ssh_port),
-  }
-end
-
 M.shell.fire_rsync = utils.nio_create(
   ---@param context DeployContext
   function(context)
-    local parsed_address = M.parse_address(context.address)
+    local parsed_address = utils.parse_address(context.address)
 
     local rsync_args = {
       "--timeout=" .. config.options.timeout,
@@ -59,7 +46,7 @@ M.shell.fire_rsync = utils.nio_create(
 M.shell.fire_scp = utils.nio_create(
   ---@param context DeployContext
   function(context)
-    local parsed_address = M.parse_address(context.address)
+    local parsed_address = utils.parse_address(context.address)
 
     local scp_args = {
       "-P",
@@ -79,7 +66,7 @@ M.shell.fire_scp = utils.nio_create(
 M.shell.create_remote_dir = utils.nio_create(
   ---@param context DeployContext
   function(context)
-    local parsed_address = M.parse_address(context.address)
+    local parsed_address = utils.parse_address(context.address)
 
     local ssh_args = {
       "-p",
