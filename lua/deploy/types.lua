@@ -30,9 +30,11 @@
 ---@field rewrite? RewriteFunction An optional function to rewrite the server path before deployment.
 
 ---@class DeployConfig
----@field tool string The deployment tool to use. "scp" or "rsync". Default is "scp".
+---@field log table Configuration for logging.
+---@field log.max_size_kb number Maximum size of the log file in kilobytes.
+---@field log.level 'none'|'error'|'info' The logging level. Default is "none".
+---@field tool 'rsync'|'scp' The deployment tool to use. "scp" or "rsync". Default is "rsync".
 ---@field timeout number The timeout for deployment (Seconds). Default is 3.
----@field verbose boolean Whether to enable verbose output. Default is false.
 ---@field hosts DeployHost[] A table of hosts to which we can deploy.
 ---@field mappings DeployMapping[] A table of mappings from local filesystem paths to remote paths.
 
