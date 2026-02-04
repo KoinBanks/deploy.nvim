@@ -97,15 +97,13 @@ M.shell.create_remote_dir = utils.nio_create(
 )
 ---@param context DeployContext
 M.call_deployment_tool = function(context)
-  local start_time = vim.loop.hrtime() -- Start timer
   local result
   if config.options.tool == "rsync" then
     result = M.shell.fire_rsync(context)
   else
     result = M.shell.fire_scp(context)
   end
-  local elapsed = (vim.loop.hrtime() - start_time) / 1e9 -- seconds
-  print(string.format("Deployment took %.3f seconds", elapsed))
+
   return result
 end
 
