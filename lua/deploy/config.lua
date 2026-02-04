@@ -4,6 +4,7 @@ local M = {}
 
 ---@type DeployConfig
 M.defaults = {
+  verbose = false,
   timeout = 3,
   hosts = {},
   mappings = {},
