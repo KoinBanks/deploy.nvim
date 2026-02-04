@@ -1,4 +1,5 @@
 local lib = require("deploy.lib")
+local utils = require("deploy.utils")
 
 ---@type table<string, Subcommand>
 local subcommand_tbl = {
@@ -16,6 +17,11 @@ local subcommand_tbl = {
   toggle = {
     impl = function()
       lib.toggle_deploy_on_save()
+    end,
+  },
+  log = {
+    impl = function()
+      vim.cmd("e " .. utils.log_file)
     end,
   },
   -- install = {
