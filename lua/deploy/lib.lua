@@ -241,19 +241,12 @@ M.deploy_package = utils.nio_create(function()
   end
 
   local files_to_deploy = {}
+
   for _, file_pattern in ipairs(package.files) do
-    local expanded_files = vim.fn.glob(file_pattern, true, true)
-    vim.list_extend(files_to_deploy, expanded_files)
-  end
+    local globbed = vim.fn.glob(file_pattern, true, true)
+    local deployable = vim.tbl_filter(M.is_deployable, globbed)
 
-  local deployable_files = {}
-
-  for _, file in ipairs(files_to_deploy) do
-    if M.is_deployable(file) then
-      table.insert(deployable_files, file)
-    else
-      M.notify({ msg = "Skipping non-deployable file: " .. file, level = vim.log.levels.WARN })
-    end
+    vim.list_extend(files_to_deploy, deployable)
   end
 
   M.notify({ msg = "Package deploy initiated to " .. host.address })
