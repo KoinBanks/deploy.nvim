@@ -221,6 +221,50 @@ M.deploy_file = utils.nio_create(
   2
 )
 
+M.deploy_package = utils.nio_create(function()
+  local package = nio.ui.select(config.options.packages, {
+    prompt = "Select package:",
+    format_item = function(item)
+      return item.label
+    end,
+  })
+
+  if not package then
+    M.notify({ msg = "Aborting deploy: No package selected", level = vim.log.levels.WARN })
+    return
+  end
+
+  local host = M.pick_host()
+  if not host then
+    M.notify({ msg = "Aborting deploy: No host selected", level = vim.log.levels.WARN })
+    return
+  end
+
+  local files_to_deploy = {}
+  for _, file_pattern in ipairs(package.files) do
+    local expanded_files = vim.fn.glob(file_pattern, true, true)
+    vim.list_extend(files_to_deploy, expanded_files)
+  end
+
+  local deployable_files = {}
+
+  for _, file in ipairs(files_to_deploy) do
+    if M.is_deployable(file) then
+      table.insert(deployable_files, file)
+    else
+      M.notify({ msg = "Skipping non-deployable file: " .. file, level = vim.log.levels.WARN })
+    end
+  end
+
+  nio.gather(vim.tbl_map(function(file)
+    return function()
+      return M.deploy_file(file, { deploy_to_last_host = true, silent = false })
+    end
+  end, files_to_deploy))
+
+  M.notify({ msg = "Package deploy initiated to " .. host.address })
+end, 0)
+
 M.is_deployable = function(source)
   return vim.fn.filereadable(source) == 1 and vim.fn.isdirectory(source) == 0
 end
