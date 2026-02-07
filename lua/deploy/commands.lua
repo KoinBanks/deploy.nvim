@@ -8,6 +8,11 @@ local subcommand_tbl = {
       lib.deploy_file(vim.fn.expand("%:p"), { silent = false })
     end,
   },
+  package = {
+    impl = function()
+      lib.deploy_package()
+    end,
+  },
   -- alias for "file"
   buffer = {
     impl = function()
