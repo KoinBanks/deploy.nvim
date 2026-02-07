@@ -208,39 +208,6 @@ M.deploy_file = utils.nio_create(
       return
     end
 
-    -- handle known status codes for missing remote directory
-    if rsync_res.code == 3 or rsync_res.code == 12 then
-      M.notify({
-        msg = "Remote directory does not exist. Creating...",
-        level = vim.log.levels.WARN,
-      })
-
-      local dir_res = M.shell.create_remote_dir(context)
-
-      if dir_res.code == 0 then
-        M.notify({ msg = "Remote directory created. Retrying deploy..." })
-        rsync_res = M.call_deployment_tool(context)
-
-        if rsync_res.code == 0 then
-          M.notify({ msg = "Deploy successful (" .. context.address .. ")" })
-          return
-        else
-          M.notify({
-            msg = "Deploy failed after creating directory: " .. rsync_res.out,
-            level = vim.log.levels.ERROR,
-          })
-          return
-        end
-      else
-        M.notify({
-          msg = "Failed to create remote directory: " .. dir_res.out,
-          level = vim.log.levels.ERROR,
-        })
-
-        return
-      end
-    end
-
     M.notify({
       msg = "Deploy failed! Unable to handle rsync exit code: "
         .. rsync_res.code
