@@ -256,13 +256,13 @@ M.deploy_package = utils.nio_create(function()
     end
   end
 
+  M.notify({ msg = "Package deploy initiated to " .. host.address })
+
   nio.gather(vim.tbl_map(function(file)
     return function()
       return M.deploy_file(file, { deploy_to_last_host = true, silent = false })
     end
   end, files_to_deploy))
-
-  M.notify({ msg = "Package deploy initiated to " .. host.address })
 end, 0)
 
 M.is_deployable = function(source)
