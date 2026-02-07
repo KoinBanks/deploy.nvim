@@ -176,7 +176,7 @@ M.deploy_file = utils.nio_create(
 
       if rewrite_result == false then
         M.notify({
-          msg = "Aborting deploy: Mapping rewrite function returned false",
+          msg = "Aborting deploy: Mapping rewrite function returned false for file: " .. source,
           level = vim.log.levels.WARN,
           silent = options.silent,
         })
@@ -189,7 +189,10 @@ M.deploy_file = utils.nio_create(
 
       if rewrite_result == false then
         M.notify({
-          msg = "Aborting deploy: Host rewrite function returned false",
+          msg = "Aborting deploy: Host rewrite function returned false for file: "
+            .. source
+            .. " and host: "
+            .. host.address,
           level = vim.log.levels.WARN,
           silent = options.silent,
         })
