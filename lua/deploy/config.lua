@@ -13,6 +13,7 @@ M.defaults = {
   timeout = 3,
   hosts = {},
   mappings = {},
+  packages = {},
 }
 
 M.options = M.defaults
