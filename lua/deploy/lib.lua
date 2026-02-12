@@ -245,7 +245,7 @@ M.deploy_package = utils.nio_create(function()
 
   local files_to_deploy = {}
 
-  for _, file_pattern in ipairs(package.files) do
+  for _, file_pattern in ipairs(package.globs) do
     local globbed = vim.fn.glob(file_pattern, true, true)
     local deployable = vim.tbl_filter(M.is_deployable, globbed)
 

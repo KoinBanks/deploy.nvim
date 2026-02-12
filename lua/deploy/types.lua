@@ -39,7 +39,7 @@
 ---@field timeout? number The timeout for deployment (Seconds). Default is 3.
 ---@field hosts DeployHost[] A table of hosts to which we can deploy.
 ---@field mappings DeployMapping[] A table of mappings from local filesystem paths to remote paths.
----@field packages? { label: string, files: string[] }[] A table of package definitions, each containing a label and an array of file paths to include in the package.
+---@field packages? { label: string, globs: string[] }[] A table of package definitions, each containing a label and an array of glob patterns that define which files belong to the package.
 
 ---@class Subcommand
 ---@field impl fun(args:string[], opts: table) The command implementation
