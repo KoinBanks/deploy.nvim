@@ -204,20 +204,20 @@ M.deploy_file = utils.nio_create(
       "Local file:  " .. context.source .. "\nRemote file: " .. context.destination .. "\nHost: " .. context.address
     )
 
-    local rsync_res = M.call_deployment_tool(context)
+    local response = M.call_deployment_tool(context)
 
-    if rsync_res.code == 0 then
+    if response.code == 0 then
       M.notify({ msg = "Deploy successful (" .. context.address .. ")" })
       return
     end
 
     M.notify({
       msg = "Deploy failed! Unable to handle rsync exit code: "
-        .. rsync_res.code
+        .. response.code
         .. "\n\nCommand used: \n"
-        .. rsync_res.command
-        .. "\n\nOutput:\n"
-        .. utils.rsync_err_code_to_human(rsync_res.code),
+        .. response.command
+        .. "\n\nError code:\n"
+        .. response.code,
       level = vim.log.levels.ERROR,
     })
   end,
