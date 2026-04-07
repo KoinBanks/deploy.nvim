@@ -27,7 +27,6 @@ M.shell.fire_rsync = utils.nio_create(
 
     local rsync_args = {
       "--timeout=" .. config.options.timeout,
-      "--mkpath",
       "--temp-dir=/tmp",
       "-avze",
       "ssh -p " .. parsed_address.port,
@@ -35,10 +34,30 @@ M.shell.fire_rsync = utils.nio_create(
       parsed_address.user .. "@" .. parsed_address.host .. ":" .. context.destination,
     }
 
-    return utils.run_shell_command({
+    local rsync_res = utils.run_shell_command({
       cmd = "rsync",
       args = rsync_args,
     })
+
+    if rsync_res.code ~= 0 then
+      local mkdir_res = M.shell.create_remote_dir(context)
+
+      if mkdir_res.code ~= 0 then
+        return {
+          code = mkdir_res.code,
+          out = "[mkdir] Failed to create remote directory: " .. mkdir_res.out,
+          command = mkdir_res.command,
+        }
+      end
+
+      -- Retry rsync after creating the directory
+      rsync_res = utils.run_shell_command({
+        cmd = "rsync",
+        args = rsync_args,
+      })
+    end
+
+    return rsync_res
   end,
   1
 )
