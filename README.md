@@ -24,7 +24,7 @@ A powerful Neovim plugin for seamlessly deploying files to remote servers using 
 
 ```lua
 {
-  "iFarmGolems/deploy.nvim",
+  "KoinBanks/deploy.nvim",
   dependencies = { "nvim-neotest/nvim-nio" },
   config = function()
     require("deploy").setup({
@@ -38,7 +38,7 @@ A powerful Neovim plugin for seamlessly deploying files to remote servers using 
 
 ```lua
 use {
-  "iFarmGolems/deploy.nvim",
+  "KoinBanks/deploy.nvim",
   requires = { "nvim-neotest/nvim-nio" },
   config = function()
     require("deploy").setup({
@@ -52,7 +52,7 @@ use {
 
 ```vim
 Plug 'nvim-neotest/nvim-nio'
-Plug 'iFarmGolems/deploy.nvim'
+Plug 'KoinBanks/deploy.nvim'
 
 " In your init.vim or init.lua:
 lua << EOF
