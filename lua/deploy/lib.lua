@@ -28,8 +28,9 @@ M.shell.fire_rsync = utils.nio_create(
     local rsync_args = {
       "--timeout=" .. config.options.timeout,
       "--temp-dir=/tmp",
-      "-avze",
-      "ssh -p " .. parsed_address.port,
+      "-az",
+      "-e",
+      "ssh " .. utils.build_ssh_flags(parsed_address.port, true),
       context.source,
       parsed_address.user .. "@" .. parsed_address.host .. ":" .. context.destination,
     }
