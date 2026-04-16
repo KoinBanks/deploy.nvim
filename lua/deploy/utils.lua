@@ -59,8 +59,12 @@ M.parse_address = function(address)
   }
 end
 
+---@overload fun(port: integer, return_string: true): string
+---@overload fun(port: integer, return_string: false): string[]
+---@overload fun(port: integer): string[]
 ---@param port integer
 ---@param return_string? boolean
+---@return string[]
 M.build_ssh_flags = function(port, return_string)
   local options = {
     -- disable password authentication and strict host checking to avoid hanging
