@@ -59,6 +59,19 @@ M.parse_address = function(address)
   }
 end
 
+---@param port integer
+---@param return_string boolean
+M.build_ssh_options = function(port, return_string)
+  -- no host checking and no password auth for better security and to avoid hanging if the host is not reachable
+  local options = {
+    "-o PasswordAuthentication=no",
+    "-o StrictHostKeyChecking=no",
+    "-p " .. tostring(port),
+  }
+
+  return return_string and table.concat(options, " ") or options
+end
+
 -- codes taken from `man rsync`
 M.rsync_err_code_to_human = function(code)
   local error_code_map = {
