@@ -88,12 +88,12 @@ M.shell.create_remote_dir = utils.nio_create(
   function(context)
     local parsed_address = utils.parse_address(context.address)
 
-    local ssh_args = {
-      "-p",
-      tostring(parsed_address.port),
+    local built_ssh_args = utils.build_ssh_flags(parsed_address.port)
+
+    local ssh_args = vim.list_extend(vim.deepcopy(built_ssh_args), {
       parsed_address.user .. "@" .. parsed_address.host,
       "mkdir -p " .. context.destination:match("(.*/)"),
-    }
+    })
 
     return utils.run_shell_command({
       cmd = "ssh",
