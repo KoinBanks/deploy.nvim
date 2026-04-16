@@ -61,11 +61,12 @@ end
 
 ---@param port integer
 ---@param return_string boolean
-M.build_ssh_options = function(port, return_string)
+M.build_ssh_flags = function(port, return_string)
   -- no host checking and no password auth for better security and to avoid hanging if the host is not reachable
   local options = {
     "-o PasswordAuthentication=no",
     "-o StrictHostKeyChecking=no",
+    "-o LogLevel=ERROR",
     "-p " .. tostring(port),
   }
 
