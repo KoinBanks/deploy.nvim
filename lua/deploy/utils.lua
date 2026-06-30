@@ -32,7 +32,7 @@ M.run_shell_command = nio.create(
     local process = nio.process.run(opts)
 
     if process == nil then
-      return { -1, "Failed to start process '" .. opts.cmd .. "'" }
+      return { code = -1, out = "Failed to start process '" .. opts.cmd .. "'", command = opts.cmd .. " " .. table.concat(opts.args or {}, " ") }
     end
 
     local code = process.result(true)
