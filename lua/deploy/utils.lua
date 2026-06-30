@@ -67,12 +67,14 @@ end
 ---@return string[]
 M.build_ssh_flags = function(port, return_string)
   local options = {
-    -- disable password authentication and strict host checking to avoid hanging
-    -- if the host is not reachable or if the user has no passwordless access
-    "-o PasswordAuthentication=no",
-    "-o StrictHostKeyChecking=no",
-    "-o LogLevel=ERROR",
-    "-p " .. tostring(port),
+    "-o",
+    "PasswordAuthentication=no",
+    "-o",
+    "StrictHostKeyChecking=no",
+    "-o",
+    "LogLevel=ERROR",
+    "-p",
+    tostring(port),
   }
 
   return return_string and table.concat(options, " ") or options
