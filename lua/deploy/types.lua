@@ -3,7 +3,7 @@
 ---@class DeployContext
 ---@field source string Local source file path
 ---@field destination string Remote destination file path
----@field address string The host address to which we are deploying
+---@field address string The host address to which we are deploying. Format: [user@]host[:port]. The user and port are optional; if omitted, defaults are used.
 
 ---@class DeployOptions
 ---@field silent? boolean Whether to suppress output messages
