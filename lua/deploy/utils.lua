@@ -2,9 +2,6 @@ local nio = require("nio")
 
 local M = {}
 
-M.debug = function(...)
-  print(vim.inspect(...))
-end
 
 ---@return DeployHost|nil
 M.get_last_host = function()
