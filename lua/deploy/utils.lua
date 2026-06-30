@@ -67,14 +67,14 @@ end
 ---@return string[]
 M.build_ssh_flags = function(port, return_string)
   local options = {
+    "-p",
+    tostring(port),
     "-o",
     "PasswordAuthentication=no",
     "-o",
     "StrictHostKeyChecking=no",
     "-o",
     "LogLevel=ERROR",
-    "-p",
-    tostring(port),
   }
 
   return return_string and table.concat(options, " ") or options
